@@ -9,8 +9,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+import java.time.LocalDate;
+
 public class HelloController {
-    public TextField textImput;
+    public TextField textInput;
     public Button addButton;
     public ListView toDoList;
     public DatePicker datePicker;
@@ -24,11 +26,10 @@ public class HelloController {
 
     //code for onAction
     public void onHelloButtonClick() {
-        String userToDo = textImput.getText();
-        String toDoDate = datePicker.getId();
-        items.add(toDoDate);
-        items.add(userToDo);
-        textImput.clear();
+        String userToDo = textInput.getText();
+        LocalDate toDoDate = datePicker.getValue();
+        items.add(userToDo + " - " + toDoDate);
+        textInput.clear();
     }
 
     public void deleteKey( final KeyEvent keyEvent )
