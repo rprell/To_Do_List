@@ -6,13 +6,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-
 import java.time.LocalDate;
 
 public class HelloController {
-    public TextField textInput;
+    public TextField textImput;
     public Button addButton;
     public ListView toDoList;
     public DatePicker datePicker;
@@ -22,14 +22,19 @@ public class HelloController {
     public void initialize() {
         items = FXCollections.observableArrayList();
         toDoList.setItems(items);
+
+        toDoList.setEditable(true);
+        toDoList.setCellFactory(TextFieldListCell.forListView());
     }
 
     //code for onAction
     public void onHelloButtonClick() {
-        String userToDo = textInput.getText();
+        String userToDo = textImput.getText();
         LocalDate toDoDate = datePicker.getValue();
         items.add(userToDo + " - " + toDoDate);
-        textInput.clear();
+        textImput.clear();
+        datePicker.setValue(null);
+
     }
 
     public void deleteKey( final KeyEvent keyEvent )
