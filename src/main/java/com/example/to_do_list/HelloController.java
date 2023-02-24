@@ -9,7 +9,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+
+import java.io.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class HelloController {
     public TextField textImput;
@@ -19,12 +22,34 @@ public class HelloController {
 
     ObservableList<String> items;
 
-    public void initialize() {
+    public void initialize() throws Exception {
         items = FXCollections.observableArrayList();
         toDoList.setItems(items);
 
         toDoList.setEditable(true);
         toDoList.setCellFactory(TextFieldListCell.forListView());
+
+        restoreData();
+    }
+
+
+
+    public void saveData() throws Exception {
+        FileOutputStream fileOut =
+                new FileOutputStream("SavedToDo");
+        ObjectOutputStream out = new ObjectOutputStream(fileOut);
+        ArrayList<String> temporaryList = new ArrayList<>(items);
+        out.writeObject(temporaryList);
+        out.close();
+        fileOut.close();
+    }
+
+    public void restoreData() throws Exception{
+        FileInputStream fileIn = new FileInputStream("SavedToDo");
+        ObjectInputStream in = new ObjectInputStream(fileIn);
+        ArrayList<String> temporaryList = (ArrayList<String>) in.readObject();
+        ObservableList temporaryObservableList = FXCollections.observableArrayList(temporaryList);
+        toDoList.setItems(temporaryObservableList);
     }
 
     //code for onAction
